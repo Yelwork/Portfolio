@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YIU WAI KONG, CROWLEY - BIM Manager & CG Artist</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155'
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px rgba(6, 182, 212, 0.5)',
+                        'neon-strong': '0 0 30px rgba(6, 182, 212, 0.8)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles for Animations & Aesthetic -->
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
+
+        /* Glowing Text Effect */
+        .text-glow {
+            text-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+        }
+
+        /* Hero Background Grid */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active, .reveal-left.active, .reveal-right.active {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        /* Timeline specific styles */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: linear-gradient(to bottom, #06b6d4 0%, transparent 100%);
+            transform: translateX(-50%);
+        }
+        @media (max-width: 768px) {
+            .timeline-line::before { left: 24px; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 top-0 bg-slate-900/50 backdrop-blur-md border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+       <a href="#home" class="font-tech text-xl font-bold text-white tracking-widest group">
+    <span class="text-cyan-400 group-hover:text-glow transition-all">C</span>ROWLEY YIU
+</a>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8">
+            <a href="#experience" class="text-sm uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Evolution</a>
+            <a href="#projects" class="text-sm uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Projects</a>
+            <a href="#beyond-bim" class="text-sm uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Innovation</a>
+            <a href="#impact" class="text-sm uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Impact</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-cyan-400 text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+<!-- Hero Section -->
+<header id="home" class="relative min-h-screen flex items-center bg-slate-900 overflow-hidden pt-20">
+    
+    <!-- 右側相片背景與漸層 Overlay -->
+    <div class="absolute inset-0 z-0 flex justify-end pointer-events-none">
+        <div class="relative w-full h-full md:w-2/3 lg:w-1/2">
+            <!-- 你的相片 (替換 src) -->
+            <img src="YOUR_IMAGE_URL_HERE.jpg" alt="Yiu Wai Kong, Crowley Portrait" class="absolute inset-0 w-full h-full object-cover object-top opacity-70 md:opacity-100">
+            
+            <!-- 漸層遮罩：讓圖片與左側的深色背景柔和融合 -->
+            <!-- 手機版是由下往上漸層 (to-t)，電腦版是由左往右漸層 (to-r) -->
+            <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent"></div>
+            
+            <!-- 額外加強左側邊緣的深色過渡，確保文字清晰 -->
+            <div class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-slate-900 to-transparent hidden md:block"></div>
+        </div>
+    </div>
+
+    <!-- 背景氛圍光效 (點綴科技感) -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- 左側內容區塊 -->
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-2xl reveal-left">
+            <div class="w-16 h-2 bg-cyan-500 mb-8"></div> <!-- 呼應參考圖的短橫線排版 -->
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight uppercase drop-shadow-lg">
+                YIU WAI KONG<br><span class="text-cyan-400">CROWLEY</span>
+            </h1>
+            <h3 class="text-2xl md:text-3xl text-slate-300 font-medium mb-6 drop-shadow-md">
+                Assistant BIM Manager <span class="text-cyan-500 mx-2">|</span> CG Artist
+            </h3>
+            <p class="text-slate-300 text-lg mb-8 max-w-xl leading-relaxed drop-shadow">
+                Msc BIM / BIM Trainer / CCBM / CCBC / PMP® / BEAM Affiliate<br><br>
+                Bridging the gap between 3D visual storytelling and advanced Building Information Modelling.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#experience" class="px-8 py-3 bg-cyan-500 text-slate-900 font-bold rounded hover:bg-cyan-400 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.5)] text-center">
+                    View Experience
+                </a>
+                <a href="#projects" class="px-8 py-3 border border-cyan-500 text-cyan-400 font-bold rounded hover:bg-cyan-500/10 transition-colors text-center bg-slate-900/50 backdrop-blur-sm">
+                    Project Highlights
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Career Evolution Section -->
+<section id="experience" class="py-20 bg-slate-800 text-white">
+    <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold mb-12 text-center text-cyan-400 reveal">Career Evolution</h2>
+        
+        <div class="relative border-l-2 border-cyan-500 ml-4 md:ml-1/2">
+            
+            <!-- HKIAI -->
+            <div class="mb-10 ml-8 relative reveal-left">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div>
+                <p class="text-sm text-cyan-300 font-semibold tracking-wide">September 2023 — Present</p>
+                <h3 class="text-2xl font-bold text-white mt-1">Part-Time CCBC Instructor</h3>
+                <h4 class="text-lg text-slate-300 mb-2">HKIAI</h4>
+                <p class="text-slate-400">Instructor for CIC Accredited Professional Certificate in BIM Coordination (QF4 & CEF).</p>
+            </div>
+
+            <!-- Manly-Tech: Assistant BIM Manager -->
+            <div class="mb-10 ml-8 relative reveal-right">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div>
+                <p class="text-sm text-cyan-300 font-semibold tracking-wide">September 2023 — Present</p>
+                <h3 class="text-2xl font-bold text-white mt-1">Assistant BIM Manager</h3>
+                <h4 class="text-lg text-slate-300 mb-2">Manly-Tech Engineering LTD</h4>
+                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                    <li>Autodesk BIM Award 2024 Winner - Automated Carpark A and B at HKBCF.</li>
+                    <li>Managed diverse projects: AAHK (C21W02, C21W21, C19W05, 3307), HA (Pak Tin Estate Ph 12), HS (Anderson Road R2-3 & R2-4), ArchSD (NTECC), UBS (IGC Tower 2B), MTR (Tung Chung East Station).</li>
+                    <li>Designed BIM Workflows, Project BEP, and Company BIM Standards while driving ISO 19650 Certification.</li>
+                </ul>
+            </div>
+
+            <!-- Manly-Tech: BIM Coordinator -->
+            <div class="mb-10 ml-8 relative reveal-left">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div>
+                <p class="text-sm text-cyan-300 font-semibold tracking-wide">July 2021 — August 2023</p>
+                <h3 class="text-2xl font-bold text-white mt-1">BIM Coordinator</h3>
+                <h4 class="text-lg text-slate-300 mb-2">Manly-Tech Engineering LTD</h4>
+                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                    <li>BIM Project Management and production of 4DMS for construction programs.</li>
+                    <li>Developed VR Safety Training Games (Unity) and Construction Method simulations (Synchro4D, Maya).</li>
+                </ul>
+            </div>
+
+            <!-- Manly-Tech: BIM Modeller -->
+            <div class="mb-10 ml-8 relative reveal-right">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div>
+                <p class="text-sm text-cyan-300 font-semibold tracking-wide">November 2020 — July 2021</p>
+                <h3 class="text-2xl font-bold text-white mt-1">BIM Modeller</h3>
+                <h4 class="text-lg text-slate-300 mb-2">Manly-Tech Engineering LTD</h4>
+            </div>
+
+            <!-- EYEEYESTUDIO -->
+            <div class="mb-10 ml-8 relative reveal-left">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-slate-500"></div>
+                <p class="text-sm text-slate-400 font-semibold tracking-wide">August 2019 — August 2020</p>
+                <h3 class="text-2xl font-bold text-slate-200 mt-1">CG Artist</h3>
+                <h4 class="text-lg text-slate-400 mb-2">EYEEYESTUDIO</h4>
+                <p class="text-slate-500 text-sm">Specialized in high-impact visual storytelling, commercial advertising, 3D rendering, and cinematic filmmaking.</p>
+            </div>
+
+            <!-- Lovely Tour Company -->
+            <div class="mb-10 ml-8 relative reveal-right">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-slate-500"></div>
+                <p class="text-sm text-slate-400 font-semibold tracking-wide">July 2018 — August 2019</p>
+                <h3 class="text-2xl font-bold text-slate-200 mt-1">Production Assistant</h3>
+                <h4 class="text-lg text-slate-400 mb-2">Lovely Tour Company Ltd</h4>
+                <p class="text-slate-500 text-sm">Managed pre-production, on-set execution, logistics, and visual storytelling consistency.</p>
+            </div>
+
+            <!-- Greater Design Consultants -->
+            <div class="mb-10 ml-8 relative reveal-left">
+                <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full bg-slate-500"></div>
+                <p class="text-sm text-slate-400 font-semibold tracking-wide">February 2014 — August 2016</p>
+                <h3 class="text-2xl font-bold text-slate-200 mt-1">Architectural Designer Assistant</h3>
+                <h4 class="text-lg text-slate-400 mb-2">Greater Design Consultants</h4>
+                <p class="text-slate-500 text-sm">Generated detailed CAD designs, 3D modeling, and rendering with on-site inspection duties.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Project Highlights Section -->
+<section id="projects" class="py-20 bg-slate-900 text-white relative">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <h2 class="text-4xl font-bold mb-12 text-center text-cyan-400 reveal">Project Highlights</h2>
+        
+        <!-- 專案網格 (手機 1 欄, 平板 2 欄, 電腦 3 欄) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Project 1 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_1.jpg" alt="Automated Car Park B" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM / VR / AR</div>
+                    <h3 class="text-xl font-bold text-white mb-2">C21W21 Automated Car Park B at HZMB HKP</h3>
+                    <p class="text-sm text-slate-400 mb-4">Established BIM execution plan and pioneered VR safety training and AR solutions for design alternatives.</p>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_2.jpg" alt="Automated Car Park A" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM / VR</div>
+                    <h3 class="text-xl font-bold text-white mb-2">C21W02 Automated Car Park A at HKBCF</h3>
+                    <p class="text-sm text-slate-400 mb-4">Coordinated project teams and developed alternative solutions including VR simulations and left-hand driving configurations.</p>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_3.jpg" alt="Fire Training Facility" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">As-built / Laser Scan</div>
+                    <h3 class="text-xl font-bold text-white mb-2">3307 Fire Training Facility</h3>
+                    <p class="text-sm text-slate-400 mb-4">Managed the As-built Stage, processed laser scan data to verify BIM models, and inputted required asset information.</p>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_4.jpg" alt="Anderson Road R2-3 & R2-4" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM Team Lead</div>
+                    <h3 class="text-xl font-bold text-white mb-2">ARQ R2-3 & R2-4 Subsidized Sale Flat</h3>
+                    <p class="text-sm text-slate-400 mb-4">Led BIM deliverables, initiated comprehensive training for subcontractors, and implemented a Federated Model for coordination.</p>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_5.jpg" alt="Tung Chung East Station" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">4D Simulation</div>
+                    <h3 class="text-xl font-bold text-white mb-2">C1202 Tung Chung East Station (MTR)</h3>
+                    <p class="text-sm text-slate-400 mb-4">Produced Monthly Phase Planning Videos using Synchro 4D, integrating as-built progress with complex master programs.</p>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_6.jpg" alt="New Territories East Cultural Centre" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM Coordination</div>
+                    <h3 class="text-xl font-bold text-white mb-2">NTECC (ArchSD)</h3>
+                    <p class="text-sm text-slate-400 mb-4">Served as BIM Coordinator for a major cultural centre featuring large-scale performance venues and public facilities.</p>
+                </div>
+            </div>
+
+            <!-- Project 7 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_7.jpg" alt="International Gateway Centre" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">Interior BIM / CSD</div>
+                    <h3 class="text-xl font-bold text-white mb-2">IGC Tower 2B Fit-out (UBS)</h3>
+                    <p class="text-sm text-slate-400 mb-4">Managed Interior Design modeling, clash detection, and timely delivery of CSD/CBWD for a major relocation project.</p>
+                </div>
+            </div>
+
+            <!-- Project 8 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_8.jpg" alt="North District Hospital" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM Team Lead</div>
+                    <h3 class="text-xl font-bold text-white mb-2">North District Hospital Expansion</h3>
+                    <p class="text-sm text-slate-400 mb-4">Acted as BIM Team Lead to support the Main Contractor in producing Shop Drawings for Wall, Floor, and Ceiling elements.</p>
+                </div>
+            </div>
+
+            <!-- Project 9 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_9.jpg" alt="Pak Tin Estate Phase 12" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM / Walkthrough</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Pak Tin Estate Phase 12 (HA)</h3>
+                    <p class="text-sm text-slate-400 mb-4">Coordinated BIM workflows during design and generated immersive rendered walkthroughs for DDRP presentations.</p>
+                </div>
+            </div>
+
+            <!-- Project 10 -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
+                <img src="YOUR_IMAGE_URL_HERE_10.jpg" alt="Lamma Power Station VR" class="w-full h-48 object-cover border-b border-slate-700">
+                <div class="p-6">
+                    <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">Unity 3D / VR Safety</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Lamma Power Station Unit 12</h3>
+                    <p class="text-sm text-slate-400 mb-4">Developed project-specific VR safety training covering lift shaft, gondola, and general site hazards using Unity 3D.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Beyond BIM Section (Media Enhanced) -->
+<section id="beyond-bim" class="py-20 bg-slate-800 text-white relative">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <h2 class="text-4xl font-bold mb-12 text-center text-cyan-400 reveal">Beyond BIM: Innovation & Training</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- 左欄：Innovation & Immersive Tech -->
+            <div class="reveal-left">
+                <h3 class="text-2xl font-bold text-white mb-6 flex items-center border-b border-slate-700 pb-2">
+                    <span class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center mr-3 text-sm">01</span>
+                    Immersive Tech & Development
+                </h3>
+                <div class="space-y-8">
+                    
+                    <!-- Item 1 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <!-- 媒體容器 (圖片或影片) -->
+                        <div class="aspect-video bg-slate-800 relative">
+                            <!-- 若要使用影片，請將 img 替換為以下 video 標籤：
+                            <video src="YOUR_VIDEO_URL_HERE.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video> -->
+                            <img src="YOUR_MEDIA_URL_1.jpg" alt="VR Safety Training" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">VR Safety Training (Unity 3D)</h4>
+                            <p class="text-sm text-slate-400">Developed project-specific VR safety simulations (e.g., Lamma Power Station) covering lift shafts, gondolas, and general site hazards.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_2.jpg" alt="Vision Hub on Web" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">Vision Hub on Web & 360 Panorama</h4>
+                            <p class="text-sm text-slate-400">Early adopter of integrating immersive panorama walkthroughs into BIM and construction for effective project visualization.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_3.jpg" alt="GAMMA AR" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">AR & Miniature Promotion (GAMMA AR)</h4>
+                            <p class="text-sm text-slate-400">Integrated AR technology with CDE to project scaled miniatures of buildings for inspecting facades, MVA, and road signage.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_4.jpg" alt="VR Left-Hand Driving" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">VR Left-Hand Driving & Swept Path</h4>
+                            <p class="text-sm text-slate-400">Developed a VR Design Review tool in Unity 3D to conduct user experience testing for automated car parking systems.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_5.jpg" alt="Synchro 4D" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">Synchro 4D Construction Simulation</h4>
+                            <p class="text-sm text-slate-400">Maintained and produced monthly Phase Planning Videos, integrating as-built progress with complex master programs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右欄：Training, Standards & Data -->
+            <div class="reveal-right">
+                <h3 class="text-2xl font-bold text-white mb-6 flex items-center border-b border-slate-700 pb-2">
+                    <span class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center mr-3 text-sm">02</span>
+                    Leadership, Data & Education
+                </h3>
+                <div class="space-y-8">
+                    
+                    <!-- Item 6 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all relative">
+                        <div class="absolute top-0 right-0 z-10 px-3 py-1 bg-cyan-500 text-slate-900 text-sm font-bold rounded-bl-lg">200+ Students</div>
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_6.jpg" alt="CCBC Training" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">CCBC & Project BIM Training</h4>
+                            <p class="text-sm text-slate-400">Educated professionals in Revit, Navisworks, and CDE for firms including ArchSD, Build King, ARUP, and AECOM.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 7 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_7.jpg" alt="Internal Training" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">Internal Team & Global Training</h4>
+                            <p class="text-sm text-slate-400">Spearheaded internal initiatives, developing customized modules to equip overseas teams to clear professional BIM Manager certification interviews.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 8 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_8.jpg" alt="ISO 19650" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">ISO 19650 Certification</h4>
+                            <p class="text-sm text-slate-400">Drove company compliance and integration of international BIM standards for enhanced quality assurance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 9 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_9.jpg" alt="PowerBI Indicatorization" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">Indicatorization of BIM Clash (PowerBI)</h4>
+                            <p class="text-sm text-slate-400">Transformed raw detection data into real-time Key Performance Indicators (KPIs) through dynamic, data-driven dashboards.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 10 -->
+                    <div class="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all">
+                        <div class="aspect-video bg-slate-800 relative">
+                            <img src="YOUR_MEDIA_URL_10.jpg" alt="Industry Keynote" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-2">Industry Keynote & Alumni Sharing</h4>
+                            <p class="text-sm text-slate-400">Presented at CIC CITAC Innovation Technology Exhibition and shared BIM fundamentals at Hong Kong Metropolitan University.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Impact & Recognition Section -->
+<section id="impact" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+    <!-- 背景裝飾 -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <h2 class="text-4xl font-bold mb-12 text-center text-cyan-400 reveal">Impact & Recognition</h2>
+        
+        <!-- Top Awards: 兩大重量級獎項 (1:1 比例佈局) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            
+            <!-- 2025 HKIBIM Young BIMer -->
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] transition-all reveal-left flex flex-col">
+                <div class="h-64 relative bg-slate-800">
+                    <img src="YOUR_AWARD_IMAGE_1.jpg" alt="HKIBIM Young BIMer 2025" class="w-full h-full object-cover">
+                    <div class="absolute top-4 right-4 bg-amber-500 text-slate-900 text-xs font-bold px-3 py-1 rounded shadow-lg">2025</div>
+                </div>
+                <div class="p-8 flex-1">
+                    <div class="text-amber-400 text-sm font-bold tracking-widest uppercase mb-2">HKIBIM Award</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Young BIMer of the Year</h3>
+                    <h4 class="text-lg text-slate-300 mb-4">Bronze Award & Special Mention Award</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Recognized by HKIBIM for individual excellence and commitment to innovation. Proven track record in high-stakes environments, directly contributing to the Silver Award-winning building project - C21W02 Automated Car Park A at HKBCF (Phase 1).
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2024 Autodesk BIM Award -->
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-cyan-500/50 hover:border-cyan-400 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] transition-all reveal-right flex flex-col">
+                <div class="h-64 relative bg-slate-800">
+                    <img src="YOUR_AWARD_IMAGE_2.jpg" alt="Autodesk BIM Award 2024" class="w-full h-full object-cover">
+                    <div class="absolute top-4 right-4 bg-cyan-500 text-slate-900 text-xs font-bold px-3 py-1 rounded shadow-lg">2024</div>
+                </div>
+                <div class="p-8 flex-1">
+                    <div class="text-cyan-400 text-sm font-bold tracking-widest uppercase mb-2">Autodesk Award</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Hong Kong BIM Award Winner</h3>
+                    <h4 class="text-lg text-slate-300 mb-4">Automated Carpark A and B at HKBCF</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Validates proven capability and expertise as a BIM professional. Demonstrates high proficiency in leveraging advanced BIM methodologies and Autodesk tools to deliver high-quality, efficient, and innovative project solutions.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Industry Influence & Education: 三欄式佈局呈現演講與教學反饋 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- CIC CITAC Keynote -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all reveal-left flex flex-col">
+                <div class="h-48 relative bg-slate-700">
+                    <img src="YOUR_KEYNOTE_IMAGE.jpg" alt="CIC CITAC Keynote Presentation" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 flex-1">
+                    <h4 class="text-lg font-bold text-cyan-300 mb-2">CIC CITAC Keynote Presentation</h4>
+                    <p class="text-sm text-slate-400 mb-4">
+                        Served as the keynote presenter at the CIC Construction Innovation Technology Exhibition, demonstrating the latest BIM and construction technology innovations directly to the senior leadership teams of DEVB and CIC.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Alumni Sharing & Exhibition -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all reveal justify-between flex flex-col">
+                <div class="h-48 relative bg-slate-700">
+                    <img src="YOUR_SHARING_IMAGE.jpg" alt="Alumni Sharing at HKMU" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 flex-1">
+                    <h4 class="text-lg font-bold text-cyan-300 mb-2">Alumni Sharing & BIM Exhibition</h4>
+                    <p class="text-sm text-slate-400 mb-4">
+                        Alumni speaker at Hong Kong Metropolitan University, sharing the transformation pathway from animation to BIM. Dedicated to providing practical BIM solutions to the public at industry exhibitions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Teaching Impact & Feedback -->
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all reveal-right flex flex-col">
+                <div class="h-48 relative bg-slate-700">
+                    <!-- 這裡建議放上 PPT 中的 Google 五星評論截圖 -->
+                    <img src="YOUR_REVIEW_IMAGE.jpg" alt="Student Feedback" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="p-6 flex-1">
+                    <h4 class="text-lg font-bold text-cyan-300 mb-2">Outstanding Teaching Impact</h4>
+                    <p class="text-sm text-slate-400 mb-4">
+                        Driven to foster collective growth by educating the industry. Consistent 5-star feedback from CCBC students for dedicated instruction and effective exam preparation strategies.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Footer / CTA -->
+    <footer class="bg-dark-900 py-20 border-t border-slate-800 relative overflow-hidden">
+        <!-- Glowing orb -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[500px] h-[300px] bg-cyan-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to build the future?</h2>
+            <p class="text-slate-400 mb-10 text-lg">Let's discuss how we can integrate innovative BIM and visualization strategies into your next project.</p>
+            
+            <a href="mailto:ywk1005@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-cyan-500 text-dark-900 font-bold rounded-full hover:bg-cyan-400 hover:shadow-neon-strong transition-all duration-300 text-lg">
+                <i class="fas fa-envelope"></i> ywk1005@gmail.com
+            </a>
+            
+            <div class="mt-16 flex justify-center gap-6">
+                <!-- Placeholder social links -->
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-slate-700 transition-colors">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-slate-700 transition-colors">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <p class="text-slate-600 text-sm mt-8">© 2026 YIU WAI KONG, CROWLEY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+<script>
+    // 監聽元素是否進入或離開畫面
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 進入畫面：加入 active 播放動畫
+                entry.target.classList.add('active');
+            } else {
+                // 離開畫面：移除 active 重置動畫 (這是向上拉也能重複觸發的關鍵)
+                entry.target.classList.remove('active');
+            }
+        });
+    }, { 
+        threshold: 0.15, // 元素出現 15% 時觸發
+        rootMargin: "0px 0px -50px 0px" // 稍微提早或延遲觸發的邊界
+    });
+
+    // 綁定所有需要動畫的元素
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
+        observer.observe(el);
+    });
+</script>
+</html>
