@@ -109,7 +109,34 @@
         }
     </style>
 </head>
+
+
+
 <body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+<!-- 密碼登入畫面 (Login Screen) -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-900 text-white transition-opacity duration-500">
+        <!-- 登入卡片 -->
+        <div class="max-w-md w-full mx-4 px-8 py-10 bg-slate-800 rounded-2xl shadow-[0_0_30px_rgba(6,182,212,0.15)] border border-slate-700 text-center relative overflow-hidden">
+            <!-- 裝飾光暈 -->
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <h1 class="text-3xl font-bold mb-2 text-white tracking-wider">YIU WAI KONG</h1>
+            <p class="text-cyan-400 mb-8 tracking-widest text-sm font-semibold">PORTFOLIO ACCESS</p>
+            
+            <div class="mb-5">
+                <input type="password" id="password-input" placeholder="Enter Password" class="w-full px-5 py-4 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors text-center tracking-widest">
+            </div>
+            
+            <button id="login-btn" class="w-full py-4 bg-cyan-500 text-slate-900 font-bold rounded-lg hover:bg-cyan-400 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
+                ENTER
+            </button>
+            
+            <p id="error-msg" class="text-red-400 text-sm mt-5 hidden animate-pulse">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+
+
 
 <!-- Navigation -->
 <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 top-0 bg-slate-900/50 backdrop-blur-md border-b border-slate-700/50">
@@ -133,6 +160,9 @@
         </button>
     </div>
 </nav>
+
+<div id="main-portfolio" class="hidden opacity-0 transition-opacity duration-1000">
+
 <!-- Hero Section -->
 <header id="home" class="relative min-h-screen flex items-center bg-slate-900 overflow-hidden pt-20">
     
@@ -533,7 +563,7 @@
 
             <!-- Project 9 -->
             <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300 reveal">
-                <Video src="./pt12.mp4" autoplay loop muted playsinline alt="Pak Tin Estate Phase 12" class="w-full h-80 object-cover border-b border-slate-700"></video>
+                <video src="./pt12.mp4" autoplay loop muted playsinline alt="Pak Tin Estate Phase 12" class="w-full h-80 object-cover border-b border-slate-700"></video>
                     <div class="absolute top-4 right-4 bg-gray-500 text-slate-900 text-xs font-bold px-3 py-1 rounded shadow-lg">2024-2025</div>
                 <div class="p-6">
                     <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">BIM Coordination / Walkthrough</div>
@@ -743,9 +773,7 @@
         <!-- Item 11: Industry exhibition -->
         <div class="bg-slate-800/90 rounded-2xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all duration-300 flex flex-col reveal">
             <div class="w-full aspect-video bg-slate-700 relative">
-                <img src="./ex2.jpeg" alt="Industry e
-
-" class="w-full h-full object-cover">
+                <img src="./ex2.jpeg" alt="Industry Exhibition" class="w-full h-full object-cover">
             </div>
             <div class="w-full p-8 md:p-12">
                 <div class="text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">Keynote & Sharing</div>
@@ -777,6 +805,7 @@
 </div>
 </section>
 
+</div>
 
 <!-- Footer / CTA -->
     <footer class="bg-dark-900 py-20 border-t border-slate-800 relative overflow-hidden">
@@ -805,25 +834,58 @@
         </div>
     </footer>
 
+
     <!-- Interactive Scripts -->
 <script>
-    // 監聽元素是否進入或離開畫面
+    // --- 密碼登入邏輯 ---
+    const correctPassword = "BIM"; 
+    
+    const loginScreen = document.getElementById('login-screen');
+    const mainPortfolio = document.getElementById('main-portfolio');
+    const passwordInput = document.getElementById('password-input');
+    const loginBtn = document.getElementById('login-btn');
+    const errorMsg = document.getElementById('error-msg');
+
+    function checkPassword() {
+        if (passwordInput.value === correctPassword) {
+            loginScreen.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                loginScreen.style.display = 'none';
+                mainPortfolio.classList.remove('hidden');
+                void mainPortfolio.offsetWidth;
+                mainPortfolio.classList.remove('opacity-0');
+            }, 500);
+            
+        } else {
+            errorMsg.classList.remove('hidden');
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+    }
+
+    loginBtn.addEventListener('click', checkPassword);
+    
+    passwordInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+
+    // --- 滾動動畫邏輯 (只宣告一次 observer) ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // 進入畫面：加入 active 播放動畫
                 entry.target.classList.add('active');
             } else {
-                // 離開畫面：移除 active 重置動畫 (這是向上拉也能重複觸發的關鍵)
                 entry.target.classList.remove('active');
             }
         });
     }, { 
-        threshold: 0.15, // 元素出現 15% 時觸發
-        rootMargin: "0px 0px -50px 0px" // 稍微提早或延遲觸發的邊界
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
     });
 
-    // 綁定所有需要動畫的元素
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
         observer.observe(el);
     });
